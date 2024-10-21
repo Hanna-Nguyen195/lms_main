@@ -306,7 +306,7 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    <form method ="POST" action="{% url 'add_student'  %}" novalidate>
+                                    <form method ="POST" action="{% url 'add_student' id_teacher  %}" novalidate>
                                         {% csrf_token %}
                                         <p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>
                                         </p>
@@ -343,6 +343,13 @@
 												</span>
 											</div>
 										</div>
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Id Course<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" name = 'id_course' class='optional'  type="text" /></div>
+                                        </div>
+
                                         <!-- <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">Gender<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">

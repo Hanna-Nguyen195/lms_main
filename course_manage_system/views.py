@@ -6,15 +6,16 @@ from student_manage_system import models
 # Function get a course by id
 #  Course cua teacher and course cua student
 
-#  ham show ra cac khoa hoc cua teacher
+#  ham show ra cac thong tin chi tiet khoa hoc cua teacher
 def build_course(request, course_id, teacher_id):
     # Lấy khóa học với id tương ứng
-    course_all = models.JointCourse.objects.get(id_course = course_id, id_teacher = teacher_id)
-    course = course_all.id_course
-    teacher_inf = course_all.id_teacher
-    teacher = teacher_inf.admin
-    students_inf = course_all.id_student
-    students = students_inf.admin
+    course_all = models.JointCourse.objects.filter(id_course = course_id, id_teacher = teacher_id)
+    course = course_all.first().id_course
+    teacher = course_all.first().id_teacher
+    students = []
+    for x in course_all:
+        if x.id_student is not None:
+            students.append(x)
     return render(request, "course_default.html",{'course':course, 'teacher':teacher, "students":students})
 
 

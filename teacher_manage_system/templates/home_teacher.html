@@ -36,7 +36,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="{% static 'production/index.html' %}" class="site_title"><i class="fa fa-paw"></i> <span>{{teacher.username}}</span></a>
+              <a href="{% static 'production/index.html' %}" class="site_title"><i class="fa fa-paw"></i> <span>{{teacher.id}} +  {{teacher.last_name}}</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -47,7 +47,7 @@
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>{{teacher.username}}</h2>
+                <h2>{{teacher_id}}</h2>
               </div>
             </div>
 
@@ -66,17 +66,17 @@
                       <li><a href="index3.html">Dashboard3</a></li>
                     </ul>
                   </li>
-                  <li><a href="{% url 'add_student' %}"><i class="fa fa-edit"></i> Create new Student </a>
+                  <li><a href="{% url 'add_student' teacher_id %}"><i class="fa fa-edit"></i> Create new Student </a>
                     
                   </li>
-                  <li><a href="{% url 'add_course' %}"><i class="fa fa-desktop"></i> Create New Course </a>
+                  <li><a href="{% url 'add_course' teacher_id  %}"><i class="fa fa-desktop"></i> Create New Course </a>
                     
                   </li>
                   <li><a><i class="fa fa-table"></i> List Course <span class="fa fa-chevron-down"></span></a>
                   
                     <ul class="nav child_menu">
                       {% for course in courses %}
-                      <li><a href="{% url 'build_course' course.id %}">{{course.course_name}}</a></li>
+                      <li><a href="{% url 'build_course' course.id  teacher_id %}">{{course.course_name}}</a></li>
                       {% endfor %}
                     </ul>
                     

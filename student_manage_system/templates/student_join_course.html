@@ -306,22 +306,22 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    <form method ="POST" action="{% url 'add_course' id_teacher  %}" novalidate>
+                                    <form method ="POST" action="{% url 'student_find_course' id_student %}" novalidate>
                                         {% csrf_token %}
                                         <p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>
                                         </p>
                                         <span class="section">Personal Info</span>
                                         <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Course Name<span class="required">*</span></label>
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Course ID<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" name = "course_name" placeholder="ex. John f. Kennedy" required="required" />
+                                                <input class="form-control" name = "course_id" placeholder="1" required="required" />
                                             </div>
                                         </div>
-                                        <!-- <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Staff ID<span class="required">*</span></label>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Teacher ID<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" name = "staff_id" class='optional'  type="text" /></div>
-                                        </div> -->
+                                                <input class="form-control" name = "teacher_id" class='optional' placeholder="1"  type="text" /></div>
+                                        </div>
                                        
                                         <div class="ln_solid">
                                             <div class="form-group">

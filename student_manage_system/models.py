@@ -6,7 +6,8 @@ from django.db.models.signals import post_save
 # model customeruser này dùng để quản lí đăng nhập, đki người dùng thay thế cho auth.user 
 # model này có sẵn username passwword, email,... nhưng chưa có phone, address
 class CustomerUser(AbstractUser):
-    user_type_date = (( 1, "HOD"), (2, "Staff"),(3, "Student") )
+    user_type_date = (( 1, "HOD"), (2, "Staff"),(3, "Student"))
+    gender = models.CharField(max_length=255)
     user_type = models.CharField(default=1, choices=user_type_date, max_length=10)
 
 
@@ -48,96 +49,145 @@ class Subjects(models.Model):
 class Students(models.Model):
     id = models.AutoField(primary_key=True)
     admin = models.OneToOneField(CustomerUser, on_delete=models.CASCADE)
-    gender = models.CharField(max_length=255)
-    # profile_pic = models.FileField()
-    # address = models.TextField()
-    # course_id = models.ForeignKey(Courses,on_delete=models.CASCADE, default=1 )
-    # sesion_start_year = models.DateField()
-    # session_end_year = models.DateField()
     creater_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
+
+class Enrollment(models.Model): 
+    id = models.AutoField(primary_key=True)
+    course_id = models.ForeignKey(Courses, on_delete=models.CASCADE)
+    status = models.CharField(max_length=255, default="Register")
+    student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
+    creater_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
 
 class JointCourse(models.Model):
     id_course = models.ForeignKey(Courses, on_delete= models.CASCADE)
-    id_teacher = models.ForeignKey(Staffs, on_delete= models.CASCADE)
     id_student = models.ForeignKey(Students, on_delete= models.CASCADE, null=True, blank=True)
     objects = models.Manager()
 
-
-class Attendance(models.Model):
-    id = models.AutoField(primary_key= True)
-    subject_id = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING)
-    attendance_date = models.DateTimeField(auto_now_add=True)
-    created_at = models.DateTimeField(auto_now_add= True)
-    objects = models.Manager()
-
-
-class AttendanceReport(models.Model):
+class Assignment(models.Model):
     id = models.AutoField(primary_key=True)
-    student_id = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
-    attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE)
-    status = models.BooleanField(default=False)
-    creater_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    course_id = models.ForeignKey(Courses, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    create_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
 
-
-class LeaveReportStudent(models.Model):
+class SubmitAssignment(models.Model):
     id = models.AutoField(primary_key=True)
-    student_id = models.ForeignKey(Students, on_delete= models.CASCADE)
-    leave_date = models.CharField(max_length=255)
-    leave_message  = models.TextField()
-    leave_status = models.BooleanField(default=False)
-    creater_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    assignment_id = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
+    assignment_file = models.FileField(null=True, blank=True)
+    marks = models.IntegerField(default=0)
+    content = models.TextField(null=True, blank=True)
+    create_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
 
-
-class LeaveReportStudent(models.Model):
+class Lession(models.Model):    
     id = models.AutoField(primary_key=True)
-    staff_id = models.ForeignKey(Staffs, on_delete= models.CASCADE)
-    leave_date = models.CharField(max_length=255)
-    leave_message  = models.TextField()
-    leave_status = models.BooleanField(default=False)
+    course_id = models.ForeignKey(Courses, on_delete=models.CASCADE)
+    lession_name = models.CharField(max_length=255)
+    content = models.TextField(null=True, blank=True)
     creater_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
 
 
-class FeedbackStudent(models.Model):
+
+class LessionResource(models.Model):
     id = models.AutoField(primary_key=True)
-    student_id = models.ForeignKey(Students, on_delete= models.CASCADE)
-    feedback = models.CharField(max_length=255)
-    feedback_reply  = models.TextField()
+    lession_id = models.ForeignKey(Lession, on_delete=models.CASCADE)
+    resource_name = models.CharField(max_length=255)
+    resource_content = models.FileField()
     creater_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
 
-class FeedBackStaffs(models.Model):
+class Exam(models.Model):
     id = models.AutoField(primary_key=True)
-    staff_id = models.ForeignKey(Staffs, on_delete= models.CASCADE)
-    feedback = models.CharField(max_length=255)
-    feedback_reply  = models.TextField()
+    course_id = models.ForeignKey(Courses, on_delete=models.CASCADE)
+    student_id = models.ForeignKey(Students, on_delete=models.CASCADE)
     creater_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
 
-class NotificationStudent(models.Model):
+class ExamAnswer(models.Model):
     id = models.AutoField(primary_key=True)
-    student_id = models.ForeignKey(Students, on_delete= models.CASCADE)
-    message = models.CharField(max_length=255)
-    creater_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    exam_id = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    question_id = models.IntegerField()
+    answer = models.CharField(max_length=255)
     objects = models.Manager()
+# class Attendance(models.Model):
+#     id = models.AutoField(primary_key= True)
+#     subject_id = models.ForeignKey(Subjects, on_delete=models.DO_NOTHING)
+#     attendance_date = models.DateTimeField(auto_now_add=True)
+#     created_at = models.DateTimeField(auto_now_add= True)
+#     objects = models.Manager()
 
-class NotificationStaffs(models.Model):
-    id = models.AutoField(primary_key=True)
-    staff_id = models.ForeignKey(Staffs, on_delete= models.CASCADE)
-    message = models.CharField(max_length=255)
-    creater_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
-    objects = models.Manager()
+
+# class AttendanceReport(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     student_id = models.ForeignKey(Students, on_delete=models.DO_NOTHING)
+#     attendance_id = models.ForeignKey(Attendance, on_delete=models.CASCADE)
+#     status = models.BooleanField(default=False)
+#     creater_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now_add=True)
+#     objects = models.Manager()
+
+
+# class LeaveReportStudent(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     student_id = models.ForeignKey(Students, on_delete= models.CASCADE)
+#     leave_date = models.CharField(max_length=255)
+#     leave_message  = models.TextField()
+#     leave_status = models.BooleanField(default=False)
+#     creater_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now_add=True)
+#     objects = models.Manager()
+
+
+# class LeaveReportStudent(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     staff_id = models.ForeignKey(Staffs, on_delete= models.CASCADE)
+#     leave_date = models.CharField(max_length=255)
+#     leave_message  = models.TextField()
+#     leave_status = models.BooleanField(default=False)
+#     creater_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now_add=True)
+#     objects = models.Manager()
+
+
+# class FeedbackStudent(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     student_id = models.ForeignKey(Students, on_delete= models.CASCADE)
+#     feedback = models.CharField(max_length=255)
+#     feedback_reply  = models.TextField()
+#     creater_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now_add=True)
+#     objects = models.Manager()
+
+# class FeedBackStaffs(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     staff_id = models.ForeignKey(Staffs, on_delete= models.CASCADE)
+#     feedback = models.CharField(max_length=255)
+#     feedback_reply  = models.TextField()
+#     creater_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now_add=True)
+#     objects = models.Manager()
+
+# class NotificationStudent(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     student_id = models.ForeignKey(Students, on_delete= models.CASCADE)
+#     message = models.CharField(max_length=255)
+#     creater_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now_add=True)
+#     objects = models.Manager()
+
+# class NotificationStaffs(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     staff_id = models.ForeignKey(Staffs, on_delete= models.CASCADE)
+#     message = models.CharField(max_length=255)
+#     creater_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now_add=True)
+#     objects = models.Manager()
 
 @receiver( post_save, sender = CustomerUser)
 def create_user_profile(sender, instance, created, **kwargs):
