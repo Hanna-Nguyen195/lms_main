@@ -332,11 +332,10 @@
 
                       <tbody>
                         {% for course in courses %}
-                        <!-- <a href="{% url 'build_course'  course.id  teacher.id %}">Course</a> -->
                         <tr>
                           
                           <td>{{course.id}}</td>
-                          <td><a href="{% url 'build_course' course.id teacher.id %}">{{course.course_name}}</a></td>
+                          <td><a href="{% url 'build_course' course.id %}">{{course.course_name}}</a></td>
                           <td>{{course.creater_at}}</td>
                           <td>{{course.updated_at}}</td>
                         </tr>

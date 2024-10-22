@@ -26,9 +26,10 @@ SECRET_KEY = 'django-insecure-*f71qnbr9p!4!5^f8ix^sm=^(n(q+#p@v-oh3ct1o=a)v+#q@9
 DEBUG = True
 import os
 ALLOWED_HOSTS = []
-MEDIA_URL =  "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
+# MEDIA_URL =  "/media/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_URL =  "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
@@ -136,3 +137,4 @@ USE_TZ = True
 
 AUTH_USER_MODEL = "student_manage_system.CustomerUser"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

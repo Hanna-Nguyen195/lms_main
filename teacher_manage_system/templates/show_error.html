@@ -1,18 +1,25 @@
+{% load static %}
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error Page</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}"> <!-- Nếu bạn sử dụng CSS -->
 </head>
 <body>
+
+    <h1>Error</h1>
+
+    <!-- Hiển thị thông báo lỗi -->
     {% if messages %}
         <ul>
         {% for message in messages %}
-            <li>{{ message }}</li>
+            <li class="error">{{ message }}</li>
         {% endfor %}
         </ul>
     {% endif %}
-    
-    <!-- Nội dung khác của trang -->
+
 </body>
 </html>

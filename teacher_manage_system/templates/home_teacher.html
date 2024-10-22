@@ -76,7 +76,7 @@
                   
                     <ul class="nav child_menu">
                       {% for course in courses %}
-                      <li><a href="{% url 'build_course' course.id  teacher_id %}">{{course.course_name}}</a></li>
+                      <li><a href="{% url 'build_course' course.id %}">{{course.course_name}}</a></li>
                       {% endfor %}
                     </ul>
                     

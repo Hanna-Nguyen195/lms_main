@@ -1,0 +1,10 @@
+<form method="POST" action="{% url 'create_resource' id_lession  %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="name">Title:</label>
+    <input type="text" id="name" name="name"><br><br>
+
+    <label for="content">Choose a file:</label>
+    <input type="file" id="file" name="content"><br><br>
+
+    <button type="submit">Upload</button>
+</form>

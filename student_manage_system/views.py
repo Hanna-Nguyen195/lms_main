@@ -52,7 +52,7 @@ def student_find_course(request, id_student):
             join.save()
             messages.success(request, ('You have already joined this course'))
             # Can chinh sua lai de nó chuyen den trang chu cua khoa hoc
-            return redirect('build_course', course_id = id_course, teacher_id = id_teacher)
+            return redirect('build_course', course_id = id_course)
         return render(request, 'student_join_course.html', {'id_student': id_student})
     
 

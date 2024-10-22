@@ -10,5 +10,7 @@ urlpatterns  = [
     path('page_show_student/<int:id_teacher>/<int:id_course>/', views.page_show_student, name = "page_show_student"),
     path('page_add_student/<int:id_teacher>/', views.page_add_student, name = "page_add_student" ),
 
+
+
 #     
 ]

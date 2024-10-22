@@ -64,9 +64,7 @@ def add_course(request, id_teacher):
                 print(messages)
                 # redirect('add_course')
             else: 
-                course1 = JointCourse(id_course = course, id_teacher = teacher)
                 course.save()
-                course1.save()
                 messages.success(request, "Course added successfully!")
                 courses = Courses.objects.filter(staff_id = teacher)
                 return render(request, "show_all_course.html", {"courses" : courses, "teacher": teacher})  # Chuyển hướng về trang chủ khi thành công
@@ -119,13 +117,13 @@ def add_student(request, id_teacher):
     
     return render(request,'add_student.html', {'id_teacher' : id_teacher})
 
-def teacher_add_student_into_course(request, id_course):
-    if(request.method == "POST"):
-        fist_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        username = request.POST['username']
-        password = request.POST['password']
-        email = request.POST
+# def teacher_add_student_into_course(request, id_course):
+#     if(request.method == "POST"):
+#         fist_name = request.POST['first_name']
+#         last_name = request.POST['last_name']
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         email = request.POST
 
 #  Loc ra cac hoc sinh trong khoa hoc cua 1 giao vien
 # def show_student(request, course_id, teacher_id):
@@ -158,20 +156,6 @@ def rank_test(request, id_teacher):
 
 
 # Them lession and li thuyet, bai tập, kiểm tra, điểm danh = Tạo bài học, tạo bài tập
-def teacher_add_lession(request, id_teacher, id_course):
-    if(request.method == "POST"):
-        name_lession = request.POST['name_lession']
-        #  content coi nhu la phan mo ta
-        content = request.POST.get('content')
-        try:
-            lession = Lession(lession_name = name_lession, content = content, course_id = id_course)
-            lession.save()
-            
-            # truyen vao teacher phai la 1 instance t
-        except Exception as e:
-            messages.error(request, "Failed to add lession: " + str(e))
-    
-
 
 
 
