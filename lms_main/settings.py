@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'course_manage_system',
     'teacher_manage_system',
     'student_manage_system',
+    'assignment_manage_system',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

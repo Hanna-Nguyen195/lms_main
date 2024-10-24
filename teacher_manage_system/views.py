@@ -50,6 +50,34 @@ def teacher_signup( request):
         return redirect('teacher_login')
     return render(request,'signup_teacher.html',{})
 
+#  teacher.id la id cua admin
+# Muon lay id chinh cua teacher trong Staff thi lay teacher = CustomerUser.objects.get(id = teacher.id)
+# teacher.id la id cua teacher trong bang Staff
+def teacher_update_information(request, id_teacher):    
+    teacher = Staffs.objects.get(id = id_teacher)
+    
+    if request.method == "POST":
+        fist_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        username = request.POST['username']
+        password = request.POST['password']
+        email = request.POST['email']
+        gender = request.POST['gender']
+        user = CustomerUser.objects.get(id = teacher.id)
+        try:
+            user.first_name = fist_name
+            user.last_name = last_name
+            user.username = username
+            user.password = password
+            user.email = email
+            user.gender = gender
+            user.save()
+            return redirect('home_teacher', id_teacher = id_teacher)
+        except Exception as e:
+            messages.error(request, "Failed to update information: " + str(e))
+            return render(request, 'show_error.html', {'messages': messages.get_messages(request)})
+    return render(request, 'teacher_update_information.html', {'id_teacher': id_teacher})
+
 
 #  Them khoa hoc
 def add_course(request, id_teacher):

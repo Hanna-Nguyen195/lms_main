@@ -1,0 +1,27 @@
+<h1>Create Assignment</h1>
+<form method ="POST" action="{% url 'teacher_update_assignment' id_assignment  %}" novalidate>
+    {% csrf_token %}
+    <p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>
+    </p>
+    <span class="section">Personal Info</span>
+    <div class="field item form-group">
+        <label class="col-form-label col-md-3 col-sm-3  label-align">Titlee<span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6">
+            <input class="form-control" name = "title" placeholder="ex. John f. Kennedy" required="required" />
+        </div>
+    </div>
+    <div class="field item form-group">
+        <label class="col-form-label col-md-3 col-sm-3  label-align">Description<span class="required">*</span></label>
+        <div class="col-md-6 col-sm-6">
+            <input class="form-control" name = "description" class='optional'  type="text" /></div>
+    </div>
+   
+    <div class="ln_solid">
+        <div class="form-group">
+            <div class="col-md-6 offset-md-3">
+                <button type='submit' class="btn btn-primary">Submit</button>
+                <button type='reset' class="btn btn-success">Reset</button>
+            </div>
+        </div>
+    </div>
+</form>

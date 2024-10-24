@@ -21,14 +21,6 @@ def build_course(request, course_id):
     return render(request, "course_default.html",{'course':courses, 'teacher':teacher})
 
 
-# def student_join_course(request, student_id, course_id,teacher_id):
-#     join_all_course = models.JointCourse.objects.get(id_course = course_id, id_student = student_id, id_teacher = teacher_id)
-#     if(join_all_course.exit() ):
-#         course = join_all_course.id_course
-#         student = join_all_course.id_student
-#         teacher = join_all_course.id_teacher
-
-
 def create_lession(request, id_course):
     if(request.method == "POST"):
         name_lession = request.POST['name_lession']
@@ -52,6 +44,9 @@ def create_lession(request, id_course):
             return render(request, 'show_error.html', {'messages': messages.get_messages(request)})
     return render(request, 'create_lession.html', {'id_course': id_course})
 
+def show_all_lession(request, id_course):
+    lessions = models.Lession.objects.filter(course_id = id_course)
+    return render(request, 'show_all_lession.html', {'lessions': lessions}) 
 
 def create_resource(request, id_lession):
     if(request.method == "POST"):
@@ -76,5 +71,58 @@ def create_resource(request, id_lession):
             
     return render(request, 'create_resource.html', {'id_lession': id_lession})
 
+def update_lession(request, id_lession):
+    lession = models.Lession.objects.get(id = id_lession)
+    if(request.method == "POST"):
+        name_lession = request.POST.get('name_lession')
+        content = request.POST.get('content')
+        try:
+            lession.lession_name = name_lession
+            lession.content = content
+            lession.save()
+            # Show ra tat ca cac lession sau khi da chinh sua
+            course = lession.course_id
+            lessions = models.Lession.objects.filter(course_id = course)
+            return render(request, 'show_all_lession.html', {'lessions': lessions})
+        except Exception as e:
+            messages = messages.error(request,"Failed to update lession: " + str(e))
+            return render(request, 'show_error.html', {'messages': messages})
+    return render(request, 'update_lession.html', {'id_lession': id_lession})
 
+def update_resource(request, id_resource):
+    resource = models.LessionResource.objects.get(id = id_resource)
+    if(request.method == "POST"):
+        name = request.POST.get('name')
+        content = request.FILES['content']
+        try:
+            resource.resource_name = name
+            resource.resource_content = content
+            resource.save()
+            # Show ra tat ca cac resource sau khi da chinh sua
+            lession = resource.lession_id
+            resources = models.LessionResource.objects.filter(lession_id = lession)
+            return render(request, 'show_all_resource.html', {'resources': resources})
+        except Exception as e:
+            messages = messages.error(request,"Failed to update resource: " + str(e))
+            return render(request, 'show_error.html', {'messages': messages})
+    return render(request, 'update_resource.html', {'id_resource': id_resource})
+
+def delete_lession(request, id_lession):
+    lession = models.Lession.objects.get(id = id_lession)
+    course = lession.course_id
+    # Lay id course truoc xong moi delete
+    lession.delete()
+    lessions = models.Lession.objects.filter(course_id = course)
+    return render(request, 'show_all_lession.html', {'lessions': lessions}) 
+
+def delete_resource(request, id_resource):
+    resource = models.LessionResource.objects.get(id = id_resource)
+    lession = resource.lession_id
+    resource.delete()
+    resources = models.LessionResource.objects.filter(lession_id = lession)
+    return render(request, 'show_all_resource.html', {'resources': resources})
+
+##############        Student       ####################
+# Ham show all lession and show all resource ca student and teacher deu dung duoc
+# Han che quyen sua xoa, neu hoc sinh an vao xoa thi in ra loi ban khong co quyen
 

@@ -9,7 +9,7 @@ urlpatterns  = [
     path('add_student/<int:id_teacher>/',views.add_student, name = "add_student"),
     path('page_show_student/<int:id_teacher>/<int:id_course>/', views.page_show_student, name = "page_show_student"),
     path('page_add_student/<int:id_teacher>/', views.page_add_student, name = "page_add_student" ),
-
+    path('teacher_update_information/<int:id_teacher>/', views.teacher_update_information, name = "teacher_update_information"),
 
 
 #     

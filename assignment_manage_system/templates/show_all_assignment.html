@@ -103,14 +103,14 @@
             </style>
         </head>
         <body>
-            <h1>Danh sach lession</h1>
+            <h1>Danh assignment</h1>
             <ul id="book-list">
         
-                {% for lession in lessions %}
+                {% for assignment in assignments %}
                 <li>
                     <span class="menu">⋮</span>
-                    <a href="{% url 'delete_lession' lession.id %}" class="delete-icon" style="display:none;">🗑️</a>
-                    {{ lession.lession_name }}
+                    <a href="{% url 'teacher_delete_assignment' assignment.id %}" class="delete-icon" style="display:none;">🗑️</a>
+                    {{ assignment.title }}
                     
                 </li>
                   {% endfor %}

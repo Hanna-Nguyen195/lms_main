@@ -1,0 +1,13 @@
+<form method="POST" action="{% url 'submit_assignment' id_assignment id_student  %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="content">Content:</label>
+    <input type="text" id="name" name="content"><br><br>
+
+    <label for="assignment_file">Choose a file:</label>
+    <input type="file" id="file" name="assignment_file"><br><br>
+
+    <button type="submit">Nop Bai</button>
+   {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+</form>

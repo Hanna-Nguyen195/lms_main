@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sách</title>
+    <style>
+        .options {
+            display: none; /* Ẩn tùy chọn xóa ban đầu */
+            margin-left: 10px;
+        }
+        .menu {
+            cursor: pointer; /* Thay đổi con trỏ thành kiểu tay khi hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Danh sách sách</h1>
+    <ul id="book-list">
+        <li>
+            <span>Sách 1</span>
+            <span class="menu">⋮</span>
+            <span class="options">
+                <a href="{% url 'delete_book' book_id=1 %}">Xóa</a> <!-- Thay 1 bằng ID thực tế -->
+            </span>
+        </li>
+        <li>
+            <span>Sách 2</span>
+            <span class="menu">⋮</span>
+            <span class="options">
+                <a href="{% url 'delete_book' book_id=2 %}">Xóa</a> <!-- Thay 2 bằng ID thực tế -->
+            </span>
+        </li>
+        <!-- Thêm nhiều sách khác tại đây -->
+    </ul>
+
+    <script>
+        // Thêm sự kiện click cho các nút dấu ba chấm
+        const menus = document.querySelectorAll('.menu');
+        menus.forEach(menu => {
+            menu.addEventListener('click', function() {
+                const options = this.nextElementSibling; // Lấy phần tử kế tiếp (tùy chọn xóa)
+                options.style.display = options.style.display === 'none' ? 'inline' : 'none'; // Chuyển đổi hiển thị
+            });
+        });
+    </script>
+</body>
+</html>
